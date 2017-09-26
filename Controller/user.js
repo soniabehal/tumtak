@@ -15,7 +15,7 @@ exports.createQuery = function (req, res) {
     var newQuery = new survey(req.body);
     newQuery.save()
         .then((data) => {
-            user.findOneAndUpdate({ _id: req.params.userID },{$push:{surveys:data._id}})
+            user.findOneAndUpdate({ _id: req.params.userID }, { $push: { surveys: data._id } })
                 .exec(function (err, data) {
                     if (err) {
                         res.json(err);
@@ -33,26 +33,34 @@ exports.createQuery = function (req, res) {
 
 
 }
-    exports.getUser=function(req,res){
-        user.find({_id:req.params.userID})
-         .populate("surveys")
-        .exec(function(err,data){
-            if(err){
+exports.getUser = function (req, res) {
+    user.find({ _id: req.params.userID })
+        .populate("surveys")
+        .exec(function (err, data) {
+            if (err) {
                 res.json(err);
             }
-            else{
+            else {
                 res.json(data);
             }
         })
+}
+exports.userRatings = function (req, res) {
+    survey.findOneAndUpdate({ _id: req.params.surveyID },
+      {$set:{
+        traits:req.body.traits
+    },
+    $inc:{
+        "users":1
     }
-    exports.reviews=function(req,res){
-        survey.find({_id:req.params.surveyID})
-        .exec(function(err,data){
-            if(err){
+    }
+)
+        .exec(function (err, data) {
+            if (err) {
                 res.json(err);
             }
-            else{
+            else {
                 res.json(data);
             }
         })
-    }
+}
