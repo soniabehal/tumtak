@@ -4,5 +4,5 @@ const userController=require("../Controller/user");
 router.get("/:userID",userController.getUser);
 router.post("/register",userController.createNewUser);
 router.post("/query/:userID",userController.createQuery);
-router.put("/:surveyID",userController.reviews);
+router.put("/:surveyID",userController.userRatings);
 module.exports=router;

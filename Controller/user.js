@@ -45,8 +45,16 @@ exports.getUser = function (req, res) {
             }
         })
 }
-exports.reviews = function (req, res) {
-    survey.find({ _id: req.params.surveyID })
+exports.userRatings = function (req, res) {
+    survey.findOneAndUpdate({ _id: req.params.surveyID },
+      {$set:{
+        traits:req.body.traits
+    },
+    $inc:{
+        "users":1
+    }
+    }
+)
         .exec(function (err, data) {
             if (err) {
                 res.json(err);
